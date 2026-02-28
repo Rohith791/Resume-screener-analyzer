@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Smart Resume Analyzer</title>
+<link rel="stylesheet" href="/static/style.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="container">
+
+    <header>
+        <h1>📄 Smart Resume Analyzer & Job Match</h1>
+        <p>Upload your resume and paste a job description to see analysis and matching score</p>
+    </header>
+
+        <!-- Toggle buttons at top of page -->
+    <div class="nav-buttons">
+        <button id="analyzer-tab" class="active" onclick="location.href='/'">Resume Analyzer</button>
+        <button id="screener-tab" onclick="location.href='/screener'">Resume Screener</button>
+    </div>
+
+    <form id="form">
+        <div class="form-group">
+            <label for="file">Upload Resume (PDF or DOCX)</label>
+            <input type="file" name="file" id="file" required>
+        </div>
+
+        <div class="form-group">
+            <label for="job_description">Job Description</label>
+            <textarea name="job_description" id="job_description" placeholder="Paste Job Description here" rows="8" required></textarea>
+        </div>
+
+        <button type="submit" class="btn">Analyze Resume</button>
+    </form>
+
+    <!-- Loader -->
+    <div id="loading" class="loader hidden">
+        <div class="spinner"></div>
+        <p>Analyzing resume, please wait...</p>
+    </div>
+
+    <!-- Results -->
+    <div id="results" class="results hidden">
+
+        <div class="card">
+            <h2>📝 Resume Analysis</h2>
+            <pre id="analysis"></pre>
+        </div>
+
+        <div class="card">
+            <h2>🎯 Job Match</h2>
+            <pre id="match"></pre>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+document.getElementById("form").onsubmit = async function(e){
+    e.preventDefault();
+
+    const formData = new FormData(this);
+
+    document.getElementById("loading").classList.remove("hidden");
+    document.getElementById("results").classList.add("hidden");
+
+    try {
+        const res = await fetch("/analyze", {
+            method: "POST",
+            body: formData
+        });
+
+        const data = await res.json();
+
+        document.getElementById("analysis").innerText = data.analysis;
+        document.getElementById("match").innerText = data.match_result;
+
+        document.getElementById("results").classList.remove("hidden");
+    } catch (err) {
+        alert("Error processing resume.");
+        console.error(err);
+    }
+
+    document.getElementById("loading").classList.add("hidden");
+}
+// Set active tab based on URL
+const path = window.location.pathname;
+
+if (path === "/" || path === "/index.html") {
+    document.getElementById("analyzer-tab").classList.add("active");
+    document.getElementById("screener-tab").classList.remove("active");
+} else if (path === "/screener") {
+    document.getElementById("screener-tab").classList.add("active");
+    document.getElementById("analyzer-tab").classList.remove("active");
+}
+</script>
+
+</body>
+</html>

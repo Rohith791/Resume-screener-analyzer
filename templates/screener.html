@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Resume Screener</title>
+<link rel="stylesheet" href="/static/screener-style.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+
+    <!-- Header + Toggle -->
+    <header>
+        <h1>📄 AI Resume Tool</h1>
+        <p>Analyze multiple resumes and rank candidates</p>
+        <div class="nav-buttons">
+            <button id="analyzer-tab" onclick="location.href='/'">Resume Analyzer</button>
+            <button id="screener-tab" class="active" onclick="location.href='/screener'">Resume Screener</button>
+        </div>
+    </header>
+
+    <!-- Screener Form -->
+    <form id="screener-form">
+        <div class="form-group">
+            <label for="files">Upload Resumes (PDF/DOCX) - Multiple allowed</label>
+            <input type="file" id="files" name="files" multiple required>
+        </div>
+        <div class="form-group">
+            <label for="job_description">Job Description</label>
+            <textarea id="job_description" rows="8" required></textarea>
+        </div>
+        <button type="submit" class="btn">Analyze Batch</button>
+    </form>
+
+    <!-- Loader -->
+    <div id="screener-loading" class="loader hidden">
+        <div class="spinner"></div>
+        <p>Processing resumes, please wait...</p>
+    </div>
+
+    <!-- Results -->
+    <div id="screener-results" class="results hidden"></div>
+
+</div>
+
+<script>
+document.getElementById("screener-form").onsubmit = async function(e){
+    e.preventDefault();
+    const files = document.getElementById("files").files;
+    const jobDesc = document.getElementById("job_description").value;
+    if(files.length===0 || !jobDesc){
+        alert("Please upload resumes and enter a job description");
+        return;
+    }
+
+    const formData = new FormData();
+    for(let i=0;i<files.length;i++){ formData.append("files", files[i]); }
+    formData.append("job_description", jobDesc);
+
+    document.getElementById("screener-loading").classList.remove("hidden");
+    document.getElementById("screener-results").classList.add("hidden");
+
+    try{
+        const res = await fetch("/screener", { method:"POST", body: formData });
+        const data = await res.json();
+
+        // data.results is already an array
+        const results = data.results;  
+
+        const resultsDiv = document.getElementById("screener-results");
+        resultsDiv.innerHTML = "";
+
+        results.forEach(r => {
+            const card = document.createElement("div");
+            card.className = "card";
+            card.innerHTML = `
+                    <div class="card-header">
+                        <div>
+                            <h2>📄 ${r.filename}</h2>
+                            <p class="score-text">Match Score</p>
+                        </div>
+                        <div class="score-circle">${r.match_score}%</div>
+                    </div>
+
+                    <div class="section">
+                        <h4>✅ Matching Skills</h4>
+                        <div class="tags matching">
+                            ${r.matching_skills.map(skill => `<span class="tag">${skill}</span>`).join("")}
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h4>❌ Missing Skills</h4>
+                        <div class="tags missing">
+                            ${r.missing_skills.map(skill => `<span class="tag">${skill}</span>`).join("")}
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h4>💡 Suggestions</h4>
+                        <ul class="suggestions">
+                            ${r.suggestions.map(s => `<li>${s}</li>`).join("")}
+                        </ul>
+                    </div>
+                `;
+            resultsDiv.appendChild(card);
+        });
+
+        resultsDiv.classList.remove("hidden");
+    }catch(err){
+        alert("Error processing resumes");
+        console.error(err);
+    }
+
+    document.getElementById("screener-loading").classList.add("hidden");
+}
+
+// Set active tab based on URL
+const path = window.location.pathname;
+
+if (path === "/" || path === "/index.html") {
+    document.getElementById("analyzer-tab").classList.add("active");
+    document.getElementById("screener-tab").classList.remove("active");
+} else if (path === "/screener") {
+    document.getElementById("screener-tab").classList.add("active");
+    document.getElementById("analyzer-tab").classList.remove("active");
+}
+</script>
+</body>
+</html>
