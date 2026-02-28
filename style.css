@@ -1,0 +1,288 @@
+/* General Styles */
+body {
+    font-family: 'Inter', sans-serif;
+    background: #f4f7f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+/* Header */
+header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+header h1 {
+    font-size: 2.2rem;
+    margin-bottom: 10px;
+    color: #1a73e8;
+}
+
+header p {
+    font-size: 1rem;
+    color: #555;
+}
+
+/* Form */
+form {
+    background: #fff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+    margin-bottom: 30px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.nav-buttons button {
+    padding: 10px 20px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    background: #e2e8f0;
+    color: #333;
+    transition: 0.3s;
+    
+}
+.nav-buttons {
+    display: flex;
+    justify-content: center; /* center horizontally */
+    gap: 10px;              /* space between buttons */
+    margin: 15px 0;          /* vertical spacing */
+}
+
+.nav-buttons button.active {
+    background: #1a73e8;
+    color: #fff;
+}
+
+label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+input[type="file"],
+textarea {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    resize: none;
+}
+
+textarea:focus,
+input:focus {
+    outline: none;
+    border-color: #1a73e8;
+    box-shadow: 0 0 5px rgba(26,115,232,0.3);
+}
+
+/* Button */
+.btn {
+    display: inline-block;
+    padding: 12px 25px;
+    background: #1a73e8;
+    color: #fff;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.btn:hover {
+    background: #1666c1;
+}
+
+/* Loader */
+.loader {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin: 20px 0;
+}
+
+.loader.hidden {
+    display: none;
+}
+
+.spinner {
+    border: 6px solid #f3f3f3;
+    border-top: 6px solid #1a73e8;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    margin-bottom: 10px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg);}
+    100% { transform: rotate(360deg);}
+}
+
+/* Results Cards */
+.results {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.card {
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+}
+
+.card h2 {
+    margin-top: 0;
+    color: #1a73e8;
+    margin-bottom: 15px;
+}
+
+pre {
+    background: #f4f7f9;
+    padding: 15px;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-size: 0.95rem;
+}
+
+.job-match-card {
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    margin-top: 20px;
+    font-family: 'Inter', sans-serif;
+}
+
+.match-score {
+    margin-bottom: 20px;
+}
+
+.score-number {
+    font-size: 2em;
+    font-weight: 700;
+    color: #2a9d8f;
+}
+
+.progress-bar {
+    background: #e0e0e0;
+    border-radius: 8px;
+    overflow: hidden;
+    height: 10px;
+    margin-top: 5px;
+}
+
+.progress {
+    height: 100%;
+    background: #2a9d8f;
+    transition: width 0.5s ease;
+}
+
+.skills-section {
+    margin-bottom: 15px;
+}
+
+.skills-section h3 {
+    margin-bottom: 8px;
+    font-size: 1.1em;
+}
+
+.skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.skills .skill {
+    background: #2a9d8f;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.9em;
+}
+
+.skills.missing .skill {
+    background: #e76f51;
+}
+
+.suggestions-section ol {
+    padding-left: 20px;
+    margin: 0;
+}
+
+/* Card styling */
+.resume-analysis-card {
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    padding: 20px 25px;
+    margin-top: 20px;
+    font-family: 'Inter', sans-serif;
+}
+
+.resume-analysis-card h2 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: #1f2937; /* Dark gray */
+}
+
+/* Section headers */
+.resume-analysis-card .skills-section h3,
+.resume-analysis-card .section h3 {
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+    color: #111827;
+}
+
+/* Skills/Strengths/Weaknesses containers */
+.resume-analysis-card .skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+/* Individual pill */
+.resume-analysis-card .skills .skill {
+    background-color: #e0f2fe; /* Light blue */
+    color: #0369a1; /* Dark blue */
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+/* Weaknesses pills (red) */
+.resume-analysis-card .skills.missing .skill {
+    background-color: #fee2e2; /* Light red */
+    color: #b91c1c; /* Dark red */
+}
+
+/* Experience summary paragraph */
+.resume-analysis-card .section p {
+    background-color: #f9fafb; /* light gray background */
+    padding: 12px 15px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    color: #374151; /* gray text */
+    line-height: 1.5;
+    margin-bottom: 15px;
+}
